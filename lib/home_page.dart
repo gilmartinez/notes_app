@@ -9,6 +9,16 @@ class _HomePageState extends State<HomePage> {
   var count = 0;
   var notes = <String>["Primeiro Item"];
 
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    onPrimary: Colors.purple,
+    primary: Colors.grey[300],
+    minimumSize: Size(88, 36),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(2)),
+    ),
+  );
+
   void _addCards(String description) {
     notes.add(description);
     setState(() {
@@ -58,18 +68,39 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 250,
+                    child: ElevatedButton(
+                      style: raisedButtonStyle,
+                      onPressed: () async {
+                        final description =
+                            await Navigator.pushNamed(context, "/create-note");
+                        if (description != null)
+                          _addCards(description as String);
+                      },
+                      child: Icon(Icons.add),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final description =
-              await Navigator.pushNamed(context, "/create-note");
-          if (description != null) _addCards(description as String);
-        },
-        backgroundColor: Colors.purpleAccent,
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     final description =
+      //         await Navigator.pushNamed(context, "/create-note");
+      //     if (description != null) _addCards(description as String);
+      //   },
+      //   backgroundColor: Colors.purpleAccent,
+      //   child: Icon(Icons.add),
+      // ),
     );
   }
 }
